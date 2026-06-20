@@ -2,54 +2,74 @@
 
 ## Dados Utilizados
 
-Descreva se usou os arquivos da pasta `data`, por exemplo:
-
-| Arquivo | Formato | Utilização no Agente |
-|---------|---------|---------------------|
-| `historico_atendimento.csv` | CSV | Contextualizar interações anteriores |
-| `perfil_investidor.json` | JSON | Personalizar recomendações |
-| `produtos_financeiros.json` | JSON | Sugerir produtos adequados ao perfil |
-| `transacoes.csv` | CSV | Analisar padrão de gastos do cliente |
-
-> [!TIP]
-> **Quer um dataset mais robusto?** Você pode utilizar datasets públicos do [Hugging Face](https://huggingface.co/datasets) relacionados a finanças, desde que sejam adequados ao contexto do desafio.
+| Arquivo                     | Formato | Utilização no Agente                                                                                                          |
+| --------------------------- | ------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| `historico_atendimento.csv` | CSV     | Consulta o histórico de atendimentos para contextualizar as interações anteriores do cliente.                                 |
+| `perfil_investidor.json`    | JSON    | Recupera o perfil do investidor, objetivos financeiros e nível de risco para personalizar as recomendações.                   |
+| `produtos_financeiros.json` | JSON    | Disponibiliza informações sobre produtos financeiros, como categoria, risco, rentabilidade, aporte mínimo e público indicado. |
+| `transacoes.csv`            | CSV     | Analisa o histórico de transações para identificar padrões financeiros e possíveis movimentações anômalas.                    |
 
 ---
 
 ## Adaptações nos Dados
 
-> Você modificou ou expandiu os dados mockados? Descreva aqui.
-
-[Sua descrição aqui]
+Foram utilizados os arquivos disponibilizados pela DIO sem alterações em sua estrutura. Durante a execução, os dados são carregados e organizados em DataFrames (CSV) e objetos JSON para facilitar consultas e integrar as informações utilizadas pelo agente.
 
 ---
 
 ## Estratégia de Integração
 
 ### Como os dados são carregados?
-> Descreva como seu agente acessa a base de conhecimento.
 
-[ex: Os JSON/CSV são carregados no início da sessão e incluídos no contexto do prompt]
+Os arquivos da pasta `data` são carregados no início da execução da aplicação. Os arquivos CSV são importados utilizando a biblioteca **Pandas**, enquanto os arquivos JSON são carregados com o módulo **json** da biblioteca padrão do Python.
 
 ### Como os dados são usados no prompt?
-> Os dados vão no system prompt? São consultados dinamicamente?
 
-[Sua descrição aqui]
+O agente utiliza uma estratégia de recuperação de contexto (*Retrieval*). Antes de gerar uma resposta, ele consulta dinamicamente os arquivos da base de conhecimento e seleciona apenas as informações relacionadas à solicitação do usuário. Essas informações são utilizadas para compor o contexto enviado ao modelo, tornando as respostas mais precisas, consistentes e personalizadas.
 
 ---
 
 ## Exemplo de Contexto Montado
 
-> Mostre um exemplo de como os dados são formatados para o agente.
-
-```
-Dados do Cliente:
-- Nome: João Silva
-- Perfil: Moderado
-- Saldo disponível: R$ 5.000
-
-Últimas transações:
-- 01/11: Supermercado - R$ 450
-- 03/11: Streaming - R$ 55
-...
+```json
+{
+  "cliente": {
+    "nome": "João Silva",
+    "perfil_investidor": "moderado",
+    "objetivo": "Crescimento Patrimonial"
+  },
+  "historico_atendimento": {
+    "data": "2025-09-15",
+    "canal": "chat",
+    "tema": "CDB",
+    "resumo": "Cliente perguntou sobre rentabilidade e prazos.",
+    "resolvido": true
+  },
+  "transacoes": [
+    {
+      "data": "2025-09-15",
+      "tipo": "PIX",
+      "valor": 850.00
+    },
+    {
+      "data": "2025-09-18",
+      "tipo": "Supermercado",
+      "valor": 420.50
+    },
+    {
+      "data": "2025-09-21",
+      "tipo": "TED",
+      "valor": 9800.00,
+      "status": "Possível anomalia"
+    }
+  ],
+  "produto_recomendado": {
+    "nome": "Tesouro Selic",
+    "categoria": "renda_fixa",
+    "risco": "baixo",
+    "rentabilidade": "100% da Selic",
+    "aporte_minimo": 30.00,
+    "indicado_para": "Reserva de emergência e iniciantes"
+  }
+}
 ```
