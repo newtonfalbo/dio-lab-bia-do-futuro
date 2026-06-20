@@ -1,6 +1,6 @@
 # Pitch – Falbo AI
 
-## Apresentação
+## Apresentação 
 
 Olá! Meu nome é **Newton Falbo** e apresento o **Falbo AI**, um agente financeiro inteligente desenvolvido como projeto do laboratório **BIA do Futuro**, da DIO.
 
