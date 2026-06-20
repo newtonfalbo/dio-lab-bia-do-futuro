@@ -1,71 +1,83 @@
-# Avaliação e Métricas
+# Métricas de Avaliação
 
-## Como Avaliar seu Agente
+## Objetivo
 
-A avaliação pode ser feita de duas formas complementares:
-
-1. **Testes estruturados:** Você define perguntas e respostas esperadas;
-2. **Feedback real:** Pessoas testam o agente e dão notas.
+As métricas de avaliação têm como finalidade verificar a qualidade, a confiabilidade e a precisão das respostas geradas pelo Falbo AI, garantindo que o agente utilize corretamente a base de conhecimento e forneça informações consistentes aos usuários.
 
 ---
 
-## Métricas de Qualidade
+## Métricas Utilizadas
 
-| Métrica | O que avalia | Exemplo de teste |
-|---------|--------------|------------------|
-| **Assertividade** | O agente respondeu o que foi perguntado? | Perguntar o saldo e receber o valor correto |
-| **Segurança** | O agente evitou inventar informações? | Perguntar algo fora do contexto e ele admitir que não sabe |
-| **Coerência** | A resposta faz sentido para o perfil do cliente? | Sugerir investimento conservador para cliente conservador |
-
-> [!TIP]
-> Peça para 3-5 pessoas (amigos, família, colegas) testarem seu agente e avaliarem cada métrica com notas de 1 a 5. Isso torna suas métricas mais confiáveis! Caso use os arquivos da pasta `data`, lembre-se de contextualizar os participantes sobre o **cliente fictício** representado nesses dados.
-
----
-
-## Exemplos de Cenários de Teste
-
-Crie testes simples para validar seu agente:
-
-### Teste 1: Consulta de gastos
-- **Pergunta:** "Quanto gastei com alimentação?"
-- **Resposta esperada:** Valor baseado no `transacoes.csv`
-- **Resultado:** [ ] Correto  [ ] Incorreto
-
-### Teste 2: Recomendação de produto
-- **Pergunta:** "Qual investimento você recomenda para mim?"
-- **Resposta esperada:** Produto compatível com o perfil do cliente
-- **Resultado:** [ ] Correto  [ ] Incorreto
-
-### Teste 3: Pergunta fora do escopo
-- **Pergunta:** "Qual a previsão do tempo?"
-- **Resposta esperada:** Agente informa que só trata de finanças
-- **Resultado:** [ ] Correto  [ ] Incorreto
-
-### Teste 4: Informação inexistente
-- **Pergunta:** "Quanto rende o produto XYZ?"
-- **Resposta esperada:** Agente admite não ter essa informação
-- **Resultado:** [ ] Correto  [ ] Incorreto
+| Métrica | Objetivo | Meta |
+|----------|----------|------|
+| Precisão das Respostas | Verificar se as respostas estão de acordo com a base de conhecimento. | ≥ 95% |
+| Personalização | Avaliar se as recomendações consideram o perfil do investidor. | 100% |
+| Detecção de Anomalias | Medir a capacidade do agente em identificar transações fora do padrão. | ≥ 90% |
+| Tempo de Resposta | Medir o tempo necessário para gerar uma resposta ao usuário. | ≤ 2 segundos |
+| Segurança | Garantir que nenhuma informação inexistente seja criada pelo agente. | 100% |
 
 ---
 
-## Resultados
+## Cenários de Teste
 
-Após os testes, registre suas conclusões:
+### Cenário 1 – Consulta de Produto
 
-**O que funcionou bem:**
-- [Liste aqui]
+**Entrada**
 
-**O que pode melhorar:**
-- [Liste aqui]
+> Qual investimento é recomendado para um perfil moderado?
+
+**Resultado Esperado**
+
+O agente deve consultar `perfil_investidor.json` e `produtos_financeiros.json`, recomendando apenas produtos compatíveis com o perfil do cliente.
 
 ---
 
-## Métricas Avançadas (Opcional)
+### Cenário 2 – Histórico de Atendimento
 
-Para quem quer explorar mais, algumas métricas técnicas de observabilidade também podem fazer parte da sua solução, como:
+**Entrada**
 
-- Latência e tempo de resposta;
-- Consumo de tokens e custos;
-- Logs e taxa de erros.
+> Qual foi meu último atendimento?
 
-Ferramentas especializadas em LLMs, como [LangWatch](https://langwatch.ai/) e [LangFuse](https://langfuse.com/), são exemplos que podem ajudar nesse monitoramento. Entretanto, fique à vontade para usar qualquer outra que você já conheça!
+**Resultado Esperado**
+
+O agente deve recuperar a informação presente em `historico_atendimento.csv`.
+
+---
+
+### Cenário 3 – Análise de Transações
+
+**Entrada**
+
+> Existe alguma movimentação suspeita?
+
+**Resultado Esperado**
+
+O agente deve consultar `transacoes.csv` e destacar apenas transações fora do comportamento esperado.
+
+---
+
+## Critérios de Qualidade
+
+O Falbo AI será considerado adequado quando:
+
+- Recuperar corretamente as informações da base de conhecimento.
+- Não gerar informações inexistentes.
+- Personalizar as respostas conforme o perfil do cliente.
+- Informar quando não houver dados suficientes.
+- Manter respostas claras, objetivas e coerentes.
+
+---
+
+## Estratégias de Validação
+
+- Testes com perguntas conhecidas.
+- Comparação das respostas com os dados armazenados.
+- Verificação da consistência das recomendações.
+- Avaliação da identificação de possíveis anomalias.
+- Revisão manual das respostas geradas.
+
+---
+
+## Resultado Esperado
+
+Espera-se que o Falbo AI forneça respostas precisas, contextualizadas e seguras, utilizando exclusivamente as informações disponíveis na base de conhecimento e contribuindo para uma melhor experiência do usuário.
